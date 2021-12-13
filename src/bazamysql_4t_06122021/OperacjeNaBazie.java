@@ -7,7 +7,19 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
+/*
+* zadanie domowe termin długi
+* 0) rozmieszczenie elementów, ręcznie c.setLayout(new GroupGridLayout());
+* 1) okno logowania do aplikacji z autoryzacją w bazie
+* 2) czy w netbeansach możemy łączyć się po ssl lub tls?
+* 3) sygnalizacja że jesteśmy połączeni
+* 4) sposób wyświetlenia danych: https://docs.oracle.com/javase/tutorial/uiswing/components/table.html
+To będzie na lekcjach:
+* 1) wyszukiwanie danych
+* 2) modyfikacja danych
+* 3) usuwanie danych
+* 4) dodawanie danych
+*/
 /**
  * Last update 08 gru 2021r.
  * @author Andrzej Gac <andrzej.gac@zsmeie.torun.pl>
