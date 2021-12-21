@@ -9,6 +9,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 /*
 * zadanie domowe termin długi 15 styczeń 2022r.max do 03 luty 2022r.
 * 0) rozmieszczenie elementów, ręcznie c.setLayout(new GroupGridLayout());
@@ -21,12 +23,16 @@ To będzie na lekcjach:
 * 2) modyfikacja danych
 * 3) usuwanie danych
 * 4) dodawanie danych
+* 5) wyświetlenie zawartości bazy
 */
 /**
- * Last update 15 gru 2021r.
+ * Last update 21 gru 2021r.
  * @author Andrzej Gac <andrzej.gac@zsmeie.torun.pl>
  */
 public class OperacjeNaBazie {
+    String[] kolumny = { "lp","nazwa", "producent", "data_sprzedazy", "cena", "waga" };
+         DefaultTableModel model ;
+    
     Connection conn;
     ResultSet rs;
     Statement stmt;
@@ -38,10 +44,12 @@ public class OperacjeNaBazie {
     String cena = "";
     String waga = "";
     public OperacjeNaBazie() {
-        
+        model = new DefaultTableModel();
+        model.setColumnIdentifiers(kolumny);
     }
     
-    public void selectAll(){
+    public DefaultTableModel selectAll(){
+        
         System.out.println("---------test selectAll");
         try {       
             conn = setConnection();
@@ -53,7 +61,8 @@ public class OperacjeNaBazie {
                 producent=rs.getString("producent");
                 data_sprzedazy=rs.getString("data_sprzedazy");
                 cena=rs.getString("cena");
-                waga=rs.getString("waga");              
+                waga=rs.getString("waga");     
+                model.addRow(new Object[]{lp, nazwa,producent, data_sprzedazy,cena,waga});
             }            
         } catch (SQLException ex) {
             Logger.getLogger(OperacjeNaBazie.class.getName()).log(Level.SEVERE, null, ex);
@@ -63,6 +72,7 @@ public class OperacjeNaBazie {
         System.out.println("Wyniki:");
         System.out.println(""+lp+" " +nazwa+" "+producent+" "
                 +data_sprzedazy+" "+cena+" "+waga);
+        return model;
     }
     
     public boolean addRowToDatabase(){
@@ -104,6 +114,7 @@ public class OperacjeNaBazie {
             System.out.println("sql:"+ptmt);
             rs = ptmt.executeQuery();
             while(rs.next()) {
+                        wynik.add(rs.getString("lp"));
                         wynik.add(rs.getString("nazwa"));
                         wynik.add(rs.getString("producent"));
                         wynik.add(rs.getString("data_sprzedazy"));
@@ -118,6 +129,26 @@ public class OperacjeNaBazie {
         }
         return true;
     }
+    
+    public int deleteFromTable(){
+        int codeInt=-1;
+        try {
+            conn = setConnection();
+            ptmt =  conn.prepareStatement("delete from towary where nazwa=? and producent=? and lp=?;");
+            ptmt.setString(1, "klawiatura");
+            ptmt.setString(2, "Logitech");
+            ptmt.setString(3, "72");
+            System.out.println("sql=" + ptmt);
+           codeInt = ptmt.executeUpdate();
+          
+        } catch (SQLException ex) {
+            Logger.getLogger(OperacjeNaBazie.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            closeAll(rs, ptmt, stmt, conn);
+        }
+        return codeInt;
+    }
+    
      public Connection setConnection() throws SQLException {
      
     conn = DriverManager.getConnection(
