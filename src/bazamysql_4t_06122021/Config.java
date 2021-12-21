@@ -1,12 +1,14 @@
 package bazamysql_4t_06122021;
 
 /**
- * Zsmeie W Toruniu, last update 08 gru 2021r.
+ * Zsmeie W Toruniu, last update 21 gru 2021r.
  * @author Andrzej Gac <andrzej.gac@zsmeie.torun.pl>
  */
 public class Config {
-public static int sizeX = 800;
-public static int sizeY = 600;
+public static int sizeX = 1200;
+public static int sizeY = 650;
+public static int sizePanelX = 1000;
+public static int sizePanelY = 600;
     public Config() {
     }
     
